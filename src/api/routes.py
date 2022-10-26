@@ -69,8 +69,32 @@ def scrape_mercadao():
 
     soup = bs(r.content, "html.parser")
 
-    products = soup.find_all("div", attrs=("product"))
+    products = soup.find_all("pdo-product-item")
+    for product in products:
+        print(product)
+        #details = product.find("div", attrs=("product-details"))
+        #title = details.find("h3", attrs=("pdo-heading-s"))
+        #print(products)
+        #dic.append({"title": title.text.strip().rstrip()})
 
+    json_data = json.dumps(dic,indent=4)
+    return json_data, 200
+
+
+@api.route('/minipreco', methods=['POST', 'GET'])
+def scrape_minipreco():
+    dic = []
+
+    r = requests.get("https://www.minipreco.pt/search?text=arroz+carolino&x=0&y=0")
+
+    soup = bs(r.content, "html.parser")
+
+    products = soup.find_all("div", attrs=("product-list__item"))
+    for product in products:
+        title = product.find("span", attrs=("details"))
+        price = product.find("p", attrs=("price"))
+        priceperkg = product.find("p", attrs=("pricePerKilogram"))
+        dic.append({"title": title.text.strip().rstrip(), "price": price.text.strip().rstrip(), "priceperkg":priceperkg.text.strip().rstrip()})
 
     json_data = json.dumps(dic,indent=4)
     return json_data, 200
