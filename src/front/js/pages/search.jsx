@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 
-import "../../styles/home.css";
-
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -10,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link as RouterLink } from "react-router-dom";
 
-const Home = () => {
+const Search = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
@@ -20,7 +18,7 @@ const Home = () => {
 					item
 					xs={12}
 					sm={8}
-					md={6}
+					md={2}
 					component={Paper}
 					elevation={6}
 					square>
@@ -62,25 +60,11 @@ const Home = () => {
 						</Box>
 					</Box>
 				</Grid>
-				<Grid
-					item
-					xs={false}
-					sm={4}
-					md={6}
-					sx={{
-						backgroundImage:
-							"url(https://images.unsplash.com/photo-1628102491629-778571d893a3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80)",
-						backgroundRepeat: "no-repeat",
-						backgroundColor: (t) =>
-							t.palette.mode === "light"
-								? t.palette.grey[50]
-								: t.palette.grey[900],
-						backgroundSize: "cover",
-						backgroundPosition: "center",
-					}}
-				/>
+				<Grid item xs={false} sm={4} md={10}>
+					asdasd
+				</Grid>
 			</Grid>
 		</>
 	);
 };
-export default Home;
+export default Search;

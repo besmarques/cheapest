@@ -14,13 +14,12 @@ from bs4 import BeautifulSoup as bs # pip install beautifulsoup4
 
 api = Blueprint('api', __name__)
 
-@api.route('/auchan', methods=['POST', 'GET'])
-def scrape_auchan():
+@api.route('/auchan/<string:search>', methods=['POST', 'GET'])
+def scrape_auchan(search):
 
     dic = []
-   
 
-    r = requests.get("https://www.auchan.pt/pt/pesquisa?q=arroz+carolino&search-button=&lang=pt_PT")
+    r = requests.get("https://www.auchan.pt/pt/pesquisa?q=" + search + "&search-button=&lang=pt_PT")
 
     soup = bs(r.content, "html.parser")
 
@@ -37,11 +36,11 @@ def scrape_auchan():
 
     return json_data, 200
 
-@api.route('/continente', methods=['POST', 'GET'])
-def scrape_continente():
+@api.route('/continente/<string:search>', methods=['POST', 'GET'])
+def scrape_continente(search):
     dic = []
 
-    r = requests.get("https://www.continente.pt/pesquisa/?q=arroz+carolino&start=0&srule=Continente&pmin=0.01")
+    r = requests.get("https://www.continente.pt/pesquisa/?q=" + search + "&start=0&srule=Continente&pmin=0.01")
 
     soup = bs(r.content, "html.parser")
 
@@ -61,11 +60,11 @@ def scrape_continente():
     json_data = json.dumps(dic,indent=4)
     return json_data, 200
 
-@api.route('/mercadao', methods=['POST', 'GET'])
-def scrape_mercadao():
+@api.route('/mercadao/<string:search>', methods=['POST', 'GET'])
+def scrape_mercadao(search):
     dic = []
 
-    r = requests.get("https://mercadao.pt/store/pingo-doce/search?queries=arroz%20carolino")
+    r = requests.get("https://mercadao.pt/store/pingo-doce/search?queries=" + search)
 
     soup = bs(r.content, "html.parser")
 
@@ -81,11 +80,11 @@ def scrape_mercadao():
     return json_data, 200
 
 
-@api.route('/minipreco', methods=['POST', 'GET'])
-def scrape_minipreco():
+@api.route('/minipreco/<string:search>', methods=['POST', 'GET'])
+def scrape_minipreco(search):
     dic = []
 
-    r = requests.get("https://www.minipreco.pt/search?text=arroz+carolino&x=0&y=0")
+    r = requests.get("https://www.minipreco.pt/search?text=" + search + "&x=0&y=0")
 
     soup = bs(r.content, "html.parser")
 

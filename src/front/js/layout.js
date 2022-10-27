@@ -4,7 +4,7 @@ import {
 	Route,
 	Routes,
 	Navigate,
-	Outlet
+	Outlet,
 } from "react-router-dom";
 
 import injectContext from "./store/appContext";
@@ -16,8 +16,7 @@ import Footer from "./component/footer.jsx";
 
 //import pages
 import Home from "./pages/home.jsx";
-import Demo from "./pages/demo.jsx";
-import Single from "./pages/single.jsx";
+import Search from "./pages/search.jsx";
 
 //create your first component
 const Layout = () => {
@@ -26,20 +25,19 @@ const Layout = () => {
 	const basename = process.env.BASENAME || "";
 
 	return (
-		<div>
+		<>
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
 					<Navbar />
 					<Routes>
 						<Route element={<Home />} exact path="/" />
-						<Route element={<Demo />} exact path="/demo" />
-						<Route element={<Single />} exact path="/single/:theid" />
+						<Route element={<Search />} exact path="/search" />
 						<Route element={"Not found!"} exact path="*" />
 					</Routes>
 					<Footer />
 				</ScrollToTop>
 			</BrowserRouter>
-		</div>
+		</>
 	);
 };
 
