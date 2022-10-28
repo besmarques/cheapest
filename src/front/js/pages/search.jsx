@@ -20,6 +20,7 @@ import continente_logo from "../../img/continente.png";
 import minipreco_logo from "../../img/minipreco.png";
 
 const Search = () => {
+
 	const { store, actions } = useContext(Context);
 
 	const [pesquisa, setPesquisa] = useState("");
@@ -35,19 +36,28 @@ const Search = () => {
 
 	store.dataAuchan
 		? store.dataAuchan.map((i) => {
+			
 				obj.push(i);
 		  })
 		: "";
 	store.dataContinente
 		? store.dataContinente.map((i) => {
+			
 				obj.push(i);
 		  })
 		: "";
 	store.dataMinipreco
 		? store.dataMinipreco.map((i) => {
+			
 				obj.push(i);
 		  })
 		: "";
+	
+
+	
+		
+	
+	
 
 	return (
 		<>
@@ -117,23 +127,28 @@ const Search = () => {
 						}}>
 						{obj
 							? obj.map((i) => {
+
+								
 									return (
-										<Card sx={{ minWidth: 300, mx: 1 }}>
+										<Card sx={{ minWidth: 300, mx: 2 }} elevation={6}>
 											<CardMedia
 												component="img"
-												Height="194"
+												Height="250"
 												image={i.image}
 												alt={i.title}
+												sx={{ mt:6 }}
 											/>
 											<CardHeader title={i.title} sx={{ minHeight: 200, mx: 1 }}/>
 											<CardContent>
-												<Typography
-													variant="body2"
+												<Typography 
+													sx={{ minHeight: 50, mx: 1 }}
+													variant="h4"
 													color="text.secondary">
 													{i.price}
 												</Typography>
 												<Typography
-													variant="body2"
+													sx={{ minHeight: 40, mx: 1 }}
+													variant="h5"
 													color="text.secondary">
 													{i.price_per_unit}
 												</Typography>
@@ -142,7 +157,7 @@ const Search = () => {
 													{i.where == "auchan" ? (
 														<img
 															src={auchan_logo}
-															width="50px"
+															width="30px"
 														/>
 													) : i.where ==
 													  "continente" ? (
@@ -150,12 +165,12 @@ const Search = () => {
 															src={
 																continente_logo
 															}
-															width="50px"
+															width="30px"
 														/>
 													) : (
 														<img
 															src={minipreco_logo}
-															width="50px"
+															width="30px"
 														/>
 													)}
 												</Avatar>

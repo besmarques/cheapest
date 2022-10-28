@@ -26,11 +26,13 @@ def scrape_auchan(search):
     products = soup.find_all("div", attrs=("product"))
     for product in products:
         title = product.find("h3")
-        price = product.find("span", attrs=("value"))
+        price_no_promo = product.find("span", attrs=("value"))
+        promo = product.find("span", attrs=("sales"))
+        price = promo.find("span", attrs=("value"))
         price_per_unit = product.find("span", attrs=("auc-measures--price-per-unit"))
-        image = product.find("img", attrs=("tile-image"))
+        image = product.find("img", attrs=("tile-image"))     
 
-        dic.append({"title": title.text.strip().rstrip(),"price": price.text.strip().rstrip(), "price_per_unit": price_per_unit.text.strip().rstrip(),"image": image["data-src"],"where": "auchan"})
+        dic.append({"title": title.text.strip().rstrip(),"price": price.text.strip().rstrip(),"price_per_unit": "(" + price_per_unit.text.strip().rstrip() + ")","image": image["data-src"],"where": "auchan"})
          
     json_data = json.dumps(dic,indent=4)
 
@@ -52,10 +54,11 @@ def scrape_continente(search):
         price = product.find("span", attrs=("ct-price-formatted"))
         unit = product.find("span", attrs=("ct-m-unit"))
         true_info = product.find("div", attrs=("ct-tile--price-secondary"))
-        true_price = true_info.find("span", attrs=("ct-price-value"))
+        price_per_unit = true_info.find("span", attrs=("ct-price-value"))
         true_unit = true_info.find("span", attrs=("ct-m-unit"))
         image = product.find("img", attrs=("ct-tile-image"))
-        dic.append({"title": title.text.strip().rstrip(), "brand":brand.text.strip().rstrip(), "quant":quant.text.strip().rstrip(), "price":price.text.strip().rstrip(), "unit": unit.text.strip().rstrip(), "true_price": true_price.text.strip().rstrip(), "true_unit": true_unit.text.strip().rstrip(),"image": image["data-src"], "where": "continente" })
+
+        dic.append({"title": title.text.strip().rstrip() + " " + brand.text.strip().rstrip() + " " + quant.text.strip().rstrip() ,  "price":price.text.strip().rstrip(), "unit": unit.text.strip().rstrip(), "price_per_unit": "(" + price_per_unit.text.strip().rstrip() + " " + true_unit.text.strip().rstrip() + ")","image": image["data-src"], "where": "continente" })
 
     json_data = json.dumps(dic,indent=4)
     return json_data, 200
@@ -92,8 +95,9 @@ def scrape_minipreco(search):
     for product in products:
         title = product.find("span", attrs=("details"))
         price = product.find("p", attrs=("price"))
-        priceperkg = product.find("p", attrs=("pricePerKilogram"))
-        dic.append({"title": title.text.strip().rstrip(), "price": price.text.strip().rstrip(), "priceperkg":priceperkg.text.strip().rstrip()})
+        price_per_unit = product.find("p", attrs=("pricePerKilogram"))
+        image = product.find("img", attrs=("lazy"))
+        dic.append({"title": title.text.strip().rstrip(),"image":image["data-original"], "price": price.text.strip().rstrip(), "price_per_unit":price_per_unit.text.strip().rstrip()})
 
     json_data = json.dumps(dic,indent=4)
     return json_data, 200
