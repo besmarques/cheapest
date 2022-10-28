@@ -2,47 +2,87 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			dataAuchan: null,
+			dataContinente: null,
+			dataMinipreco: null,
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
-			getMessage: () => {
-				// fetching data from the backend
-				fetch(process.env.BACKEND_URL + "/api/hello")
-					.then(resp => resp.json())
-					.then(data => setStore({ message: data.message }))
-					.catch(error => console.log("Error loading message from backend", error));
-			},
-			changeColor: (index, color) => {
-				//get the store
+			searchAuchan: async (terms) => {
 				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+					},
+				};
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
+				const response = await fetch(
+					`${process.env.BACKEND_URL}/api/auchan/${terms}`,
+					opts
+				);
+
+				const data = await response.json();
+				console.log("data" + data);
+
+				if (response.status == 200) {
+					setStore({ dataAuchan: data });
+				} else {
+					setStore({ dataAuchan: "error" });
+				}
+			},
+			searchContinente: async (terms) => {
+					const store = getStore();
+	
+					const opts = {
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*",
+						},
+					};
+	
+					const response = await fetch(
+						`${process.env.BACKEND_URL}/api/continente/${terms}`,
+						opts
+					);
+	
+					const data = await response.json();
+					console.log("data" + data);
+	
+					if (response.status == 200) {
+						setStore({ dataContinente: data });
+					} else {
+						setStore({ dataContinente: "error" });
+					}
+			},
+			searchMinipreco: async (terms) => {
+				const store = getStore();
+
+				const opts = {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+					},
+				};
+
+				const response = await fetch(
+					`${process.env.BACKEND_URL}/api/minipreco/${terms}`,
+					opts
+				);
+
+				const data = await response.json();
+				console.log("data" + data);
+
+				if (response.status == 200) {
+					setStore({ dataMinipreco: data });
+				} else {
+					setStore({ dataMinipreco: "error" });
+				}
+		},
+		},
 	};
 };
 

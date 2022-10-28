@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 
 import Grid from "@mui/material/Grid";
@@ -7,9 +7,29 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link as RouterLink } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
 
 const Search = () => {
 	const { store, actions } = useContext(Context);
+
+	const [pesquisa, setPesquisa] = useState("");
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		actions.searchAuchan(pesquisa);
+		actions.searchContinente(pesquisa);
+		actions.searchMinipreco(pesquisa);
+	};
+
+	let obj = [];
+
+	store.dataAuchan? (store.dataAuchan.map((i) => {obj.push(i)})):("");
+	store.dataContinente? (store.dataContinente.map((i) => {obj.push(i)})):("");
+	store.dataMinipreco? (store.dataMinipreco.map((i) => {obj.push(i)})):("");
 
 	return (
 		<>
@@ -26,42 +46,86 @@ const Search = () => {
 						sx={{
 							my: "auto",
 							mx: "auto",
+							px: 2,
+							py: 4,
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
-							justifyContent: "center",
+							justifyContent: "top",
 							minHeight: "93vh",
 						}}>
-						<Typography variant="h1" component="h2">
-							Poupa Mais
+						<Typography variant="h5" component="h2">
+							Pesquisa agora os produtos mais baratos
 						</Typography>
-						<Typography variant="h4" component="h2">
-							Descobre agora os preços mais baratos
-						</Typography>
-						<Typography>
+						<Typography sx={{ pb: 6 }}>
 							*apenas disponivel para Auchan, Continente e
 							Minipreço
 						</Typography>
-						<Box
-							sx={{
-								my: 8,
-								mx: 4,
-								display: "flex",
-								flexDirection: "column",
-								alignItems: "center",
-							}}>
+						<form onSubmit={handleSubmit}>
+							<TextField
+								required
+								fullWidth
+								name="search"
+								label="Termos da pesquisa"
+								type="text"
+								id="search"
+								value={pesquisa}
+								onChange={(e) => setPesquisa(e.target.value)}
+							/>
+
 							<Button
+								type="submit"
+								fullWidth
 								variant="contained"
-								size="large"
-								component={RouterLink}
-								to="/search">
-								descobre já
+								sx={{ mt: 3, mb: 2 }}>
+								Pesquisar
 							</Button>
-						</Box>
+						</form>
 					</Box>
 				</Grid>
 				<Grid item xs={false} sm={4} md={10}>
-					asdasd
+					<Box
+						sx={{
+							
+							px: 2,
+							py: 4,
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center",
+							justifyContent: "center",
+							minHeight: "93vh",
+							minWidth: "70vw",
+						}}>
+						{
+						
+						obj? (
+						
+						obj.map((i) => {
+							return (
+								<Card sx={{minWidth:200, mx:1}}>
+									<CardMedia
+										component="img"
+										height="194"
+										image={i.images}
+										alt={i.title}
+									/>
+									<CardHeader title={i.title} />
+									<CardContent>
+										<Typography
+											variant="body2"
+											color="text.secondary">
+											{i.price}
+										</Typography>
+										<Typography
+											variant="body2"
+											color="text.secondary">
+											{i.price_per_unit}
+										</Typography>
+									</CardContent>
+								</Card>
+							);
+						})):("")}
+					</Box>
 				</Grid>
 			</Grid>
 		</>
