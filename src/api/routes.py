@@ -30,7 +30,7 @@ def scrape_auchan(search):
         price_per_unit = product.find("span", attrs=("auc-measures--price-per-unit"))
         image = product.find("img", attrs=("tile-image"))
 
-        dic.append({"title": title.text.strip().rstrip(),"price": price.text.strip().rstrip(), "price_per_unit": price_per_unit.text.strip().rstrip(),"images": image["data-src"],"where": "auchan"})
+        dic.append({"title": title.text.strip().rstrip(),"price": price.text.strip().rstrip(), "price_per_unit": price_per_unit.text.strip().rstrip(),"image": image["data-src"],"where": "auchan"})
          
     json_data = json.dumps(dic,indent=4)
 

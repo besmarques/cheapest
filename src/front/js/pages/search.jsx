@@ -12,6 +12,12 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
+import Avatar from "@mui/material/Avatar";
+import { red } from "@mui/material/colors";
+
+import auchan_logo from "../../img/auchan.png";
+import continente_logo from "../../img/continente.png";
+import minipreco_logo from "../../img/minipreco.png";
 
 const Search = () => {
 	const { store, actions } = useContext(Context);
@@ -27,9 +33,21 @@ const Search = () => {
 
 	let obj = [];
 
-	store.dataAuchan? (store.dataAuchan.map((i) => {obj.push(i)})):("");
-	store.dataContinente? (store.dataContinente.map((i) => {obj.push(i)})):("");
-	store.dataMinipreco? (store.dataMinipreco.map((i) => {obj.push(i)})):("");
+	store.dataAuchan
+		? store.dataAuchan.map((i) => {
+				obj.push(i);
+		  })
+		: "";
+	store.dataContinente
+		? store.dataContinente.map((i) => {
+				obj.push(i);
+		  })
+		: "";
+	store.dataMinipreco
+		? store.dataMinipreco.map((i) => {
+				obj.push(i);
+		  })
+		: "";
 
 	return (
 		<>
@@ -86,45 +104,66 @@ const Search = () => {
 				<Grid item xs={false} sm={4} md={10}>
 					<Box
 						sx={{
-							
 							px: 2,
 							py: 4,
 							display: "flex",
 							flexDirection: "row",
 							alignItems: "center",
-							justifyContent: "center",
+
 							minHeight: "93vh",
 							minWidth: "70vw",
+							
+							overflow: "scroll",
 						}}>
-						{
-						
-						obj? (
-						
-						obj.map((i) => {
-							return (
-								<Card sx={{minWidth:200, mx:1}}>
-									<CardMedia
-										component="img"
-										height="194"
-										image={i.images}
-										alt={i.title}
-									/>
-									<CardHeader title={i.title} />
-									<CardContent>
-										<Typography
-											variant="body2"
-											color="text.secondary">
-											{i.price}
-										</Typography>
-										<Typography
-											variant="body2"
-											color="text.secondary">
-											{i.price_per_unit}
-										</Typography>
-									</CardContent>
-								</Card>
-							);
-						})):("")}
+						{obj
+							? obj.map((i) => {
+									return (
+										<Card sx={{ minWidth: 300, mx: 1 }}>
+											<CardMedia
+												component="img"
+												Height="194"
+												image={i.image}
+												alt={i.title}
+											/>
+											<CardHeader title={i.title} sx={{ minHeight: 200, mx: 1 }}/>
+											<CardContent>
+												<Typography
+													variant="body2"
+													color="text.secondary">
+													{i.price}
+												</Typography>
+												<Typography
+													variant="body2"
+													color="text.secondary">
+													{i.price_per_unit}
+												</Typography>
+
+												<Avatar aria-label="recipe">
+													{i.where == "auchan" ? (
+														<img
+															src={auchan_logo}
+															width="50px"
+														/>
+													) : i.where ==
+													  "continente" ? (
+														<img
+															src={
+																continente_logo
+															}
+															width="50px"
+														/>
+													) : (
+														<img
+															src={minipreco_logo}
+															width="50px"
+														/>
+													)}
+												</Avatar>
+											</CardContent>
+										</Card>
+									);
+							  })
+							: ""}
 					</Box>
 				</Grid>
 			</Grid>
